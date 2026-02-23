@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Settings{% endblock %}
+{% block content %}
+<div style="max-width: 600px; margin: 40px auto; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+    <h2 style="text-align: center;">Settings</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label for="notifications">Enable Notifications</label>
+            <input type="checkbox" id="notifications" name="notifications" {% if settings.notifications %}checked{% endif %}>
+        </div>
+        <div class="form-group">
+            <label for="theme">Theme</label>
+            <select id="theme" name="theme" class="form-control">
+                <option value="light" {% if settings.theme == 'light' %}selected{% endif %}>Light</option>
+                <option value="dark" {% if settings.theme == 'dark' %}selected{% endif %}>Dark</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Settings</button>
+    </form>
+</div>
+{% endblock %}
