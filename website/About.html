@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+<div class="banner" style="position: relative; width: 100vw; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; height: 350px; background-image: url('/static/wlv.png'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center;">
+    <div style="position: relative; z-index: 2; color: white; text-align: center; background: rgba(0,0,0,0.4); padding: 40px 60px; border-radius: 8px; max-width: 900px; width: 100%;">
+        <h1 style="font-size: 3rem; font-weight: bold;">About Us</h1>
+        <p style="font-size: 1.3rem; margin-top: 20px;">Welcome to GUIDE TO WLV! We are dedicated to helping students, staff, and visitors navigate the University of Wolverhampton campus with ease. Our interactive guide provides detailed maps, directions, and information about key locations to make your experience on campus as smooth as possible.</p>
+    </div>
+</div>
+
+<div style="max-width: 900px; margin: 40px auto; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+    <h2 style="text-align: center; margin-bottom: 30px;">Our Teams</h2>
+    {% if teams %}
+        <ul style="list-style: none; padding: 0;">
+        {% for team in teams %}
+            <li style="margin-bottom: 25px;">
+                <strong style="font-size: 1.2rem;">{{ team.name }}</strong>
+                <ul style="margin-top: 8px;">
+                    {% for member in team.members %}
+                        <li>{{ member }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No teams listed yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
