@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<div class="container mt-5" style="background: rgba(0,0,0,0.5); color: #fff; border-radius: 10px; padding: 30px 30px 20px 30px; max-width: 900px;">
+    <h1>Search Results</h1>
+    {% if query %}
+        <p>You searched for: <strong>{{ query }}</strong></p>
+        <p>(No actual search implemented yet.)</p>
+    {% else %}
+        <p>No search query provided.</p>
+    {% endif %}
+</div>
+{% endblock %}
