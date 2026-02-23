@@ -9,7 +9,9 @@ auth = Blueprint('auth', __name__)
 UNIVERSITY_EMAIL_DOMAIN = '@wlv.ac.uk'
 
 # Temporary in-memory storage for users (replace with database later)
+
 users = {}
+profiles = {}
 user_id_counter = 1
 
 
@@ -59,7 +61,7 @@ def sign_up():
     global user_id_counter
     if request.method == 'POST':
         email = request.form.get('email')
-        first_name = request.form.get('firstName')
+        first_name = request.form.get('fullName')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
@@ -78,10 +80,13 @@ def sign_up():
             # Create new user and log them in
             new_user = User(user_id_counter, email, first_name)
             users[user_id_counter] = new_user
+            # Create a profile for the new user
+            from .models import Profile
+            profiles[user_id_counter] = Profile(user_id_counter)
             user_id_counter += 1
-            
+
             login_user(new_user)
-            flash('Congratulations! Account created successfully!', category='success')
+            flash('Congratulations! Account and profile created successfully!', category='success')
             return redirect(url_for('views.home'))
 
     return render_template("sign_up.html")
