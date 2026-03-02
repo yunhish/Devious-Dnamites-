@@ -46,5 +46,25 @@
 
 #Section 3: Feature priorities?
 
-7. Please rank these features from 1(most important) to 5(least important)? 
-   
+7. Which ONE feature would help you most right now?
+   - [] Timetable updates
+   - [] Grade access
+   - [] Notifications
+   - [] Rewards
+   - [] Events   
+
+#Section 4: Security and privacy
+8. Should login be done with university email credentials?
+  -[] Yes
+  -[] No
+  -[] No preference
+
+9. Would you accept a two-factor authentication for extra security?
+  -[] Yes
+  -[] No
+  -[] No preference
+
+#Section 5: Open feedback
+10. What is ONE thing a student app MUST do well to be useful to you?
+    
+    _______________________________________________
