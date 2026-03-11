@@ -1,5 +1,4 @@
-CREATE TABLE `departments` (
- `id` int NOT NULL,
- `name` varchar(200) NOT NULL,
- PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+CREATE TABLE departments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(200) NOT NULL
+) ENGINE=InnoDB;
