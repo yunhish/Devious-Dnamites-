@@ -1,13 +1,15 @@
 from flask_login import UserMixin
+from . import db
 
-class User(UserMixin):
-    def __init__(self, id, email, first_name):
-        self.id = id
-        self.email = email
-        self.first_name = first_name
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(150), unique=True, nullable=False)
+    first_name = db.Column(db.String(150), nullable=False)
+    
+    profile = db.relationship('Profile', backref='user', uselist=False, cascade='all, delete-orphan')
 
-class Profile:
-    def __init__(self, user_id, bio="", avatar_url=None):
-        self.user_id = user_id
-        self.bio = bio
-        self.avatar_url = avatar_url
+class Profile(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
+    bio = db.Column(db.Text, default='')
+    avatar_url = db.Column(db.String(500))
