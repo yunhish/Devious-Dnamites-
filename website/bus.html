@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+{% block title %}Campus Bus – Guide to WLV{% endblock %}
+
+{% block content %}
+<style>
+  .bus-hero {
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    height: 300px;
+    background-image: url('/static/bus.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .bus-hero-overlay {
+    background: rgba(0,0,0,0.55);
+    padding: 40px 60px;
+    border-radius: 8px;
+    text-align: center;
+    color: white;
+    max-width: 700px;
+    width: 100%;
+  }
+  .section-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    margin-bottom: 24px;
+  }
+  .timetable-table th {
+    background-color: #5c2d91;
+    color: #fff;
+  }
+  .timetable-table td, .timetable-table th {
+    text-align: center;
+    vertical-align: middle;
+  }
+  .badge-running  { background-color: #28a745; color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; }
+  .badge-delayed  { background-color: #ffc107; color: #333; padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; }
+  .badge-finished { background-color: #6c757d; color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; }
+  .stop-dot {
+    width: 14px; height: 14px;
+    background: #5c2d91;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+  .stop-line {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 18px;
+  }
+  .stop-line-bar {
+    width: 3px;
+    background: #5c2d91;
+    margin-left: 5px;
+    margin-right: 13px;
+    flex-shrink: 0;
+  }
+  .tip-icon { font-size: 1.5rem; margin-bottom: 8px; }
+  .route-badge {
+    display: inline-block;
+    background: #5c2d91;
+    color: white;
+    border-radius: 20px;
+    padding: 4px 16px;
+    font-weight: 600;
+    margin-right: 8px;
+    margin-bottom: 8px;
+  }
+</style>
+
+<!-- Hero Banner -->
+<div class="bus-hero">
+  <div class="bus-hero-overlay">
+    <h1 style="font-size:2.5rem; font-weight:bold;">
+      <i class="fa fa-bus"></i> Campus Bus
+    </h1>
+    <p style="font-size:1.1rem; margin-top:10px;">
+      Live times, routes and stops for the University of Wolverhampton inter-campus shuttle.
+    </p>
+  </div>
+</div>
+
+<div style="max-width:900px; margin:36px auto; padding: 0 16px;">
+
+  <!-- Live Status Banner -->
+  <div class="section-card" style="background: linear-gradient(135deg, #5c2d91, #7b3fb5); color:white; text-align:center;">
+    <h4 style="margin-bottom:12px;"><i class="fa fa-clock-o"></i> Live Bus Status</h4>
+    <div class="row">
+      <div class="col-md-4 mb-2">
+        <div style="background:rgba(255,255,255,0.15); border-radius:10px; padding:14px;">
+          <div style="font-size:0.85rem; opacity:0.85;">City Campus → Walsall</div>
+          <div style="font-size:1.6rem; font-weight:bold; margin:4px 0;">12 min</div>
+          <span class="badge-running">On Time</span>
+        </div>
+      </div>
+      <div class="col-md-4 mb-2">
+        <div style="background:rgba(255,255,255,0.15); border-radius:10px; padding:14px;">
+          <div style="font-size:0.85rem; opacity:0.85;">Walsall → City Campus</div>
+          <div style="font-size:1.6rem; font-weight:bold; margin:4px 0;">28 min</div>
+          <span class="badge-delayed">Delayed</span>
+        </div>
+      </div>
+      <div class="col-md-4 mb-2">
+        <div style="background:rgba(255,255,255,0.15); border-radius:10px; padding:14px;">
+          <div style="font-size:0.85rem; opacity:0.85;">Telford Campus</div>
+          <div style="font-size:1.6rem; font-weight:bold; margin:4px 0;">N/A</div>
+          <span class="badge-finished">Service Ends 18:00</span>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:14px; font-size:0.8rem; opacity:0.75;">
+      <i class="fa fa-info-circle"></i> Live data is indicative. Always check the official WLV travel portal for the latest updates.
+    </p>
+  </div>
+
+  <!-- Routes -->
+  <div class="section-card">
+    <h4 style="color:#5c2d91; margin-bottom:16px;"><i class="fa fa-map-marker"></i> Bus Routes</h4>
+    <span class="route-badge">Route A – City ↔ Walsall</span>
+    <span class="route-badge">Route B – City ↔ Telford</span>
+    <span class="route-badge">Route C – Walsall ↔ Telford</span>
+    <hr>
+
+    <h6 style="color:#5c2d91; margin-bottom:12px; margin-top:16px;">Route A — City Campus ↔ Walsall Campus</h6>
+
+    <!-- Stop timeline -->
+    <div style="padding-left:8px;">
+      <div class="stop-line">
+        <span class="stop-dot" style="margin-top:3px;"></span>
+        <div>
+          <strong>City Campus (Wulfruna St stop)</strong>
+          <div style="font-size:0.85rem; color:#666;">Main departure point – outside the Student Union building</div>
+        </div>
+      </div>
+      <div style="display:flex;">
+        <div class="stop-line-bar" style="height:30px;"></div>
+      </div>
+      <div class="stop-line">
+        <span class="stop-dot" style="margin-top:3px;"></span>
+        <div>
+          <strong>Wolverhampton Train Station</strong>
+          <div style="font-size:0.85rem; color:#666;">Interchange stop – connecting rail services</div>
+        </div>
+      </div>
+      <div style="display:flex;">
+        <div class="stop-line-bar" style="height:30px;"></div>
+      </div>
+      <div class="stop-line">
+        <span class="stop-dot" style="margin-top:3px;"></span>
+        <div>
+          <strong>Walsall Town Centre</strong>
+          <div style="font-size:0.85rem; color:#666;">Short stop near Walsall bus station</div>
+        </div>
+      </div>
+      <div style="display:flex;">
+        <div class="stop-line-bar" style="height:30px;"></div>
+      </div>
+      <div class="stop-line">
+        <span class="stop-dot" style="background:#ffc107; margin-top:3px;"></span>
+        <div>
+          <strong>Walsall Campus (Gorway Rd)</strong>
+          <div style="font-size:0.85rem; color:#666;">Final stop – entrance to Walsall campus</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timetable -->
+  <div class="section-card">
+    <h4 style="color:#5c2d91; margin-bottom:16px;"><i class="fa fa-calendar"></i> Timetable — Route A (Mon–Fri)</h4>
+    <div class="table-responsive">
+      <table class="table table-bordered timetable-table">
+        <thead>
+          <tr>
+            <th>City Campus (depart)</th>
+            <th>Train Station</th>
+            <th>Walsall TC</th>
+            <th>Walsall Campus (arrive)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>08:00</td><td>08:08</td><td>08:22</td><td>08:35</td></tr>
+          <tr><td>09:00</td><td>09:08</td><td>09:22</td><td>09:35</td></tr>
+          <tr><td>10:00</td><td>10:08</td><td>10:22</td><td>10:35</td></tr>
+          <tr><td>11:00</td><td>11:08</td><td>11:22</td><td>11:35</td></tr>
+          <tr><td>12:00</td><td>12:08</td><td>12:22</td><td>12:35</td></tr>
+          <tr><td>13:00</td><td>13:08</td><td>13:22</td><td>13:35</td></tr>
+          <tr><td>14:00</td><td>14:08</td><td>14:22</td><td>14:35</td></tr>
+          <tr><td>15:00</td><td>15:08</td><td>15:22</td><td>15:35</td></tr>
+          <tr><td>16:00</td><td>16:08</td><td>16:22</td><td>16:35</td></tr>
+          <tr><td>17:00</td><td>17:08</td><td>17:22</td><td>17:35</td></tr>
+          <tr><td>18:00</td><td>18:08</td><td>18:22</td><td>18:35</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.82rem; color:#888; margin-top:8px;">
+      <i class="fa fa-info-circle"></i> Return buses depart Walsall Campus on the hour (08:00 – 18:00). Saturday service runs 09:00–16:00 (every 2 hrs). No Sunday service.
+    </p>
+  </div>
+
+  <!-- Tips -->
+  <div class="section-card">
+    <h4 style="color:#5c2d91; margin-bottom:20px;"><i class="fa fa-lightbulb-o"></i> Travel Tips</h4>
+    <div class="row">
+      <div class="col-md-4 text-center mb-3">
+        <div class="tip-icon">🎓</div>
+        <strong>Student Card Required</strong>
+        <p style="font-size:0.88rem; color:#555; margin-top:6px;">Show your valid WLV student ID card to travel free on all campus shuttle routes.</p>
+      </div>
+      <div class="col-md-4 text-center mb-3">
+        <div class="tip-icon">⏰</div>
+        <strong>Arrive 5 mins Early</strong>
+        <p style="font-size:0.88rem; color:#555; margin-top:6px;">Buses depart on schedule – aim to be at the stop at least 5 minutes before departure.</p>
+      </div>
+      <div class="col-md-4 text-center mb-3">
+        <div class="tip-icon">🌦️</div>
+        <strong>Weather Delays</strong>
+        <p style="font-size:0.88rem; color:#555; margin-top:6px;">Severe weather may cause delays. Check the WLV Twitter/X feed for real-time service alerts.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact / Links -->
+  <div class="section-card text-center" style="background:#f5f0fa;">
+    <h5 style="color:#5c2d91;">Need more info?</h5>
+    <p style="color:#555; margin-bottom:16px;">For official timetables, accessibility requirements or disruption notices, visit the WLV travel page.</p>
+    <a href="https://www.wlv.ac.uk/current-students/student-guide/getting-to-campus/" target="_blank" class="btn btn-primary" style="background:#5c2d91; border-color:#5c2d91; border-radius:20px; padding:10px 30px;">
+      <i class="fa fa-external-link"></i> Official WLV Travel Page
+    </a>
+    <a href="/dashboard" class="btn btn-outline-secondary ml-2" style="border-radius:20px; padding:10px 30px;">
+      <i class="fa fa-arrow-left"></i> Back to Dashboard
+    </a>
+  </div>
+
+</div>
+{% endblock %}

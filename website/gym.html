@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+{% block title %}WLV Gym – Guide to WLV{% endblock %}
+
+{% block content %}
+<style>
+  .gym-hero {
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    height: 300px;
+    background-image: url('/static/gym.jpg');
+    background-size: cover;
+    background-position: center top;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .gym-hero-overlay {
+    background: rgba(0,0,0,0.55);
+    padding: 40px 60px;
+    border-radius: 8px;
+    text-align: center;
+    color: white;
+    max-width: 700px;
+    width: 100%;
+  }
+  .section-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    margin-bottom: 24px;
+  }
+  .hours-table th {
+    background-color: #5c2d91;
+    color: #fff;
+    text-align: center;
+  }
+  .hours-table td { text-align: center; vertical-align: middle; }
+  .hours-table tr.today-row { background: #f5f0fa; font-weight: 600; }
+  .status-open  { background: #28a745; color: #fff; padding: 5px 14px; border-radius: 20px; font-weight: 600; }
+  .status-busy  { background: #fd7e14; color: #fff; padding: 5px 14px; border-radius: 20px; font-weight: 600; }
+  .status-quiet { background: #17a2b8; color: #fff; padding: 5px 14px; border-radius: 20px; font-weight: 600; }
+  .facility-icon { font-size: 2rem; margin-bottom: 8px; }
+  .busyness-bar-wrap { background: #e9ecef; border-radius: 8px; height: 14px; margin-bottom: 4px; }
+  .busyness-bar { height: 14px; border-radius: 8px; background: linear-gradient(90deg, #5c2d91, #c07de0); }
+  .membership-card {
+    border: 2px solid #5c2d91;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.15s;
+  }
+  .membership-card:hover { transform: translateY(-3px); box-shadow: 0 4px 18px rgba(92,45,145,0.18); }
+  .membership-card h5 { color: #5c2d91; }
+  .price-tag { font-size: 2rem; font-weight: 700; color: #5c2d91; }
+  .price-tag span { font-size: 0.9rem; font-weight: 400; color: #888; }
+</style>
+
+<!-- Hero Banner -->
+<div class="gym-hero">
+  <div class="gym-hero-overlay">
+    <h1 style="font-size:2.5rem; font-weight:bold;">
+      <i class="fa fa-heartbeat"></i> WLV Gym
+    </h1>
+    <p style="font-size:1.1rem; margin-top:10px;">
+      Opening hours, live occupancy, facilities and membership for the University of Wolverhampton Sports Centre.
+    </p>
+  </div>
+</div>
+
+<div style="max-width:900px; margin:36px auto; padding: 0 16px;">
+
+  <!-- Live Status Banner -->
+  <div class="section-card" style="background: linear-gradient(135deg, #5c2d91, #7b3fb5); color:white; text-align:center;">
+    <h4 style="margin-bottom:12px;"><i class="fa fa-signal"></i> Today's Live Status</h4>
+    <div class="row justify-content-center">
+      <div class="col-md-3 col-6 mb-2">
+        <div style="background:rgba(255,255,255,0.15); border-radius:10px; padding:14px;">
+          <div style="font-size:0.8rem; opacity:0.85;">Status</div>
+          <div style="margin:6px 0;"><span class="status-open">Open</span></div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6 mb-2">
+        <div style="background:rgba(255,255,255,0.15); border-radius:10px; padding:14px;">
+          <div style="font-size:0.8rem; opacity:0.85;">Closes At</div>
+          <div style="font-size:1.6rem; font-weight:bold; margin:4px 0;">22:00</div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6 mb-2">
+        <div style="background:rgba(255,255,255,0.15); border-radius:10px; padding:14px;">
+          <div style="font-size:0.8rem; opacity:0.85;">Current Busyness</div>
+          <div style="margin:6px 0;"><span class="status-busy">Moderately Busy</span></div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6 mb-2">
+        <div style="background:rgba(255,255,255,0.15); border-radius:10px; padding:14px;">
+          <div style="font-size:0.8rem; opacity:0.85;">Capacity</div>
+          <div style="font-size:1.6rem; font-weight:bold; margin:4px 0;">65%</div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:14px; font-size:0.8rem; opacity:0.75;">
+      <i class="fa fa-info-circle"></i> Busyness data is estimated. For booking and real-time capacity, use the WLV Sport app.
+    </p>
+  </div>
+
+  <!-- Typical Busyness -->
+  <div class="section-card">
+    <h4 style="color:#5c2d91; margin-bottom:18px;"><i class="fa fa-bar-chart"></i> Typical Busyness by Hour (Weekday)</h4>
+    <p style="font-size:0.88rem; color:#777; margin-bottom:16px;">Best times to visit: early morning (07:00–09:00) or early afternoon (12:00–14:00).</p>
+    {% set hours = [
+      ('07:00', 20), ('08:00', 35), ('09:00', 50), ('10:00', 45), ('11:00', 55),
+      ('12:00', 40), ('13:00', 38), ('14:00', 60), ('15:00', 75), ('16:00', 85),
+      ('17:00', 90), ('18:00', 88), ('19:00', 70), ('20:00', 50), ('21:00', 30)
+    ] %}
+    {% for hour, pct in hours %}
+    <div class="d-flex align-items-center mb-1">
+      <span style="width:52px; font-size:0.8rem; color:#555;">{{ hour }}</span>
+      <div class="busyness-bar-wrap flex-grow-1">
+        <div class="busyness-bar" style="width:{{ pct }}%;"></div>
+      </div>
+      <span style="width:38px; text-align:right; font-size:0.78rem; color:#888;">{{ pct }}%</span>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Opening Hours -->
+  <div class="section-card">
+    <h4 style="color:#5c2d91; margin-bottom:16px;"><i class="fa fa-clock-o"></i> Opening Hours</h4>
+    <div class="table-responsive">
+      <table class="table table-bordered hours-table">
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Gym Floor</th>
+            <th>Pool</th>
+            <th>Classes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Monday</td><td>07:00 – 22:00</td><td>07:00 – 21:00</td><td>08:00 – 20:00</td></tr>
+          <tr><td>Tuesday</td><td>07:00 – 22:00</td><td>07:00 – 21:00</td><td>08:00 – 20:00</td></tr>
+          <tr><td>Wednesday</td><td>07:00 – 22:00</td><td>07:00 – 21:00</td><td>08:00 – 20:00</td></tr>
+          <tr class="today-row"><td>Thursday ⭐</td><td>07:00 – 22:00</td><td>07:00 – 21:00</td><td>08:00 – 20:00</td></tr>
+          <tr><td>Friday</td><td>07:00 – 21:00</td><td>07:00 – 20:00</td><td>08:00 – 19:00</td></tr>
+          <tr><td>Saturday</td><td>09:00 – 18:00</td><td>09:00 – 17:00</td><td>10:00 – 16:00</td></tr>
+          <tr><td>Sunday</td><td>10:00 – 17:00</td><td>Closed</td><td>Closed</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.82rem; color:#888;">⭐ Today is Thursday. Hours may vary during exam periods and bank holidays.</p>
+  </div>
+
+  <!-- Facilities -->
+  <div class="section-card">
+    <h4 style="color:#5c2d91; margin-bottom:20px;"><i class="fa fa-th-large"></i> Facilities</h4>
+    <div class="row text-center">
+      <div class="col-md-3 col-6 mb-3">
+        <div class="facility-icon">🏋️</div>
+        <strong>Free Weights</strong>
+        <p style="font-size:0.82rem; color:#666; margin-top:4px;">Full range of dumbbells, barbells & racks</p>
+      </div>
+      <div class="col-md-3 col-6 mb-3">
+        <div class="facility-icon">🚴</div>
+        <strong>Cardio Zone</strong>
+        <p style="font-size:0.82rem; color:#666; margin-top:4px;">Treadmills, bikes, rowers & cross-trainers</p>
+      </div>
+      <div class="col-md-3 col-6 mb-3">
+        <div class="facility-icon">🏊</div>
+        <strong>Swimming Pool</strong>
+        <p style="font-size:0.82rem; color:#666; margin-top:4px;">25m heated pool with lane swimming sessions</p>
+      </div>
+      <div class="col-md-3 col-6 mb-3">
+        <div class="facility-icon">🧘</div>
+        <strong>Studios</strong>
+        <p style="font-size:0.82rem; color:#666; margin-top:4px;">Yoga, spin, HIIT and Pilates classes</p>
+      </div>
+      <div class="col-md-3 col-6 mb-3">
+        <div class="facility-icon">🏸</div>
+        <strong>Sports Hall</strong>
+        <p style="font-size:0.82rem; color:#666; margin-top:4px;">Badminton, basketball & 5-a-side football</p>
+      </div>
+      <div class="col-md-3 col-6 mb-3">
+        <div class="facility-icon">🧴</div>
+        <strong>Changing Rooms</strong>
+        <p style="font-size:0.82rem; color:#666; margin-top:4px;">Male, female & accessible facilities with lockers</p>
+      </div>
+      <div class="col-md-3 col-6 mb-3">
+        <div class="facility-icon">💊</div>
+        <strong>Personal Training</strong>
+        <p style="font-size:0.82rem; color:#666; margin-top:4px;">Qualified PTs available to book sessions</p>
+      </div>
+      <div class="col-md-3 col-6 mb-3">
+        <div class="facility-icon">🥤</div>
+        <strong>Café / Smoothie Bar</strong>
+        <p style="font-size:0.82rem; color:#666; margin-top:4px;">Post-workout snacks and protein shakes</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Membership -->
+  <div class="section-card">
+    <h4 style="color:#5c2d91; margin-bottom:20px;"><i class="fa fa-id-card"></i> Membership Options</h4>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <div class="membership-card">
+          <h5>Day Pass</h5>
+          <div class="price-tag">£5<span>/visit</span></div>
+          <ul style="list-style:none; padding:0; margin-top:12px; font-size:0.88rem; color:#555;">
+            <li>✅ Gym floor access</li>
+            <li>✅ Cardio equipment</li>
+            <li>❌ Classes not included</li>
+            <li>❌ Pool not included</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="membership-card" style="background:#f5f0fa;">
+          <div style="background:#5c2d91; color:white; border-radius:20px; font-size:0.78rem; padding:3px 12px; display:inline-block; margin-bottom:8px;">Most Popular</div>
+          <h5>Student Monthly</h5>
+          <div class="price-tag">£18<span>/month</span></div>
+          <ul style="list-style:none; padding:0; margin-top:12px; font-size:0.88rem; color:#555;">
+            <li>✅ Unlimited gym access</li>
+            <li>✅ All classes included</li>
+            <li>✅ Pool access</li>
+            <li>✅ Sports hall bookings</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="membership-card">
+          <h5>Annual Student</h5>
+          <div class="price-tag">£150<span>/year</span></div>
+          <ul style="list-style:none; padding:0; margin-top:12px; font-size:0.88rem; color:#555;">
+            <li>✅ Everything in Monthly</li>
+            <li>✅ Save ~£66 vs monthly</li>
+            <li>✅ Guest passes (x4/yr)</li>
+            <li>✅ PT discount (10%)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:0.82rem; color:#888; margin-top:8px;">
+      <i class="fa fa-info-circle"></i> Prices are indicative. Sign up at the WLV Sport reception or online via the WLV Sport portal.
+    </p>
+  </div>
+
+  <!-- CTA -->
+  <div class="section-card text-center" style="background:#f5f0fa;">
+    <h5 style="color:#5c2d91;">Ready to get started?</h5>
+    <p style="color:#555; margin-bottom:16px;">Join the WLV gym, book a class, or find out more on the official sports portal.</p>
+    <a href="https://www.wlv.ac.uk/current-students/sport-and-recreation/" target="_blank" class="btn btn-primary" style="background:#5c2d91; border-color:#5c2d91; border-radius:20px; padding:10px 30px;">
+      <i class="fa fa-external-link"></i> WLV Sport Portal
+    </a>
+    <a href="/dashboard" class="btn btn-outline-secondary ml-2" style="border-radius:20px; padding:10px 30px;">
+      <i class="fa fa-arrow-left"></i> Back to Dashboard
+    </a>
+  </div>
+
+</div>
+{% endblock %}

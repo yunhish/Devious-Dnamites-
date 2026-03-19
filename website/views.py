@@ -10,7 +10,15 @@ def home():
 
 @views.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    return render_template('Dashboard.html')
+
+@views.route('/bus')
+def bus():
+    return render_template('bus.html')
+
+@views.route('/gym')
+def gym():
+    return render_template('gym.html')
 
 @views.route('/profile')
 @login_required

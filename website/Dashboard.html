@@ -1,45 +1,131 @@
 {% extends "base.html" %}
-{% block title %}Live Campus Hub{% endblock %}
+{% block title %}Live Campus Hub – Guide to WLV{% endblock %}
+
 {% block content %}
-<div class="container mt-4">
-  <h2 class="mb-4 text-center">Live Campus Hub</h2>
+<style>
+  .hub-card {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    transition: transform 0.18s, box-shadow 0.18s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    background: #fff;
+    margin-bottom: 24px;
+  }
+  .hub-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 28px rgba(92,45,145,0.20);
+    text-decoration: none;
+    color: inherit;
+  }
+  .hub-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+  .hub-card-body {
+    padding: 18px;
+    text-align: center;
+  }
+  .hub-card-body h5 {
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #2d2d2d;
+  }
+  .hub-card-body p {
+    color: #555;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+  .hub-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+  .badge-green  { background:#d4f5e2; color:#1a7a3e; }
+  .badge-orange { background:#fff3cd; color:#856404; }
+  .badge-blue   { background:#d0ebff; color:#1864ab; }
+  .badge-grey   { background:#e9ecef; color:#555; }
+  .hub-cta {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 6px 18px;
+    border-radius: 20px;
+    background: #5c2d91;
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .hub-cta:hover { background: #4a2275; color: #fff; text-decoration: none; }
+</style>
+
+<div class="container mt-4" style="max-width:960px;">
+  <h2 class="mb-1 text-center" style="font-weight:700;">Live Campus Hub</h2>
+  <p class="text-center text-muted mb-4" style="font-size:0.95rem;">Everything you need to know about campus, right now.</p>
+
   <div class="row">
-    <div class="col-md-6 mb-3">
-      <div class="card">
-        <div class="card-body text-center">
-          <i class="fas fa-dumbbell fa-2x"></i>
-          <h5 class="card-title mt-2">WLV Gym</h5>
-          <p>Open Now • Closes 10 PM</p>
+
+    <!-- WLV Gym -->
+    <div class="col-md-6">
+      <a href="/gym" class="hub-card">
+        <img src="/static/gym.jpg" alt="WLV Gym">
+        <div class="hub-card-body">
+          <div style="font-size:1.5rem; margin-bottom:6px;">🏋️</div>
+          <h5>WLV Gym</h5>
+          <p>Check live occupancy, opening hours, facilities and membership options.</p>
+          <span class="hub-badge badge-green">Open Now • Closes 22:00</span><br>
+          <span class="hub-cta">View Full Details →</span>
         </div>
-      </div>
+      </a>
     </div>
-    <div class="col-md-6 mb-3">
-      <div class="card">
-        <div class="card-body text-center">
-          <i class="fas fa-bullhorn fa-2x"></i>
-          <h5 class="card-title mt-2">SU Events</h5>
-          <p>Tonight: Quiz Night, 8 PM</p>
+
+    <!-- Campus Bus -->
+    <div class="col-md-6">
+      <a href="/bus" class="hub-card">
+        <img src="/static/bus.jpg" alt="Campus Bus">
+        <div class="hub-card-body">
+          <div style="font-size:1.5rem; margin-bottom:6px;">🚌</div>
+          <h5>Campus Bus</h5>
+          <p>Live bus times, full timetables and stop maps for all inter-campus routes.</p>
+          <span class="hub-badge badge-orange">Next to Walsall: 12 min</span><br>
+          <span class="hub-cta">View Full Timetable →</span>
         </div>
-      </div>
+      </a>
     </div>
-    <div class="col-md-6 mb-3">
-      <div class="card">
-        <div class="card-body text-center">
-          <i class="fas fa-bus fa-2x"></i>
-          <h5 class="card-title mt-2">Campus Bus</h5>
-          <p>Next to Walsall: 12 mins</p>
+
+    <!-- SU Events -->
+    <div class="col-md-6">
+      <a href="#" class="hub-card">
+        <img src="/static/events.jpg" alt="SU Events">
+        <div class="hub-card-body">
+          <div style="font-size:1.5rem; margin-bottom:6px;">🎉</div>
+          <h5>SU Events</h5>
+          <p>What's on tonight and this week at the Students' Union.</p>
+          <span class="hub-badge badge-blue">Tonight: Quiz Night, 8 PM</span><br>
+          <span class="hub-cta">See All Events →</span>
         </div>
-      </div>
+      </a>
     </div>
-    <div class="col-md-6 mb-3">
-      <div class="card">
-        <div class="card-body text-center">
-          <i class="fas fa-book fa-2x"></i>
-          <h5 class="card-title mt-2">Harrison Library</h5>
-          <p>Status: Not Busy</p>
+
+    <!-- Harrison Library -->
+    <div class="col-md-6">
+      <a href="#" class="hub-card">
+        <img src="/static/library.jpg" alt="Harrison Library">
+        <div class="hub-card-body">
+          <div style="font-size:1.5rem; margin-bottom:6px;">📚</div>
+          <h5>Harrison Library</h5>
+          <p>Live busyness, opening hours and study space availability.</p>
+          <span class="hub-badge badge-grey">Status: Not Busy • Open until 00:00</span><br>
+          <span class="hub-cta">View Library Info →</span>
         </div>
-      </div>
+      </a>
     </div>
+
   </div>
 </div>
 {% endblock %}
