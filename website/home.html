@@ -1,57 +1,59 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 
+
 {% block content %}
-<style>
-  body {
-    background-image: url('/static/wlv.png');
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-  }
-</style>
-<div class="container mt-5">
-	<h1>Welcome To GUIDE TO WLV</h1>
-	<p>Find your way around the University of Wolverhampton with our interactive guide.GUIDE TO WLV is your go-to resource for navigating the University of Wolverhampton campus. Whether you're a new student, a visitor, or just looking to explore, our interactive guide provides detailed maps, directions, and information about key locations on campus. From lecture halls and libraries to dining options and recreational facilities, GUIDE TO WLV has you covered. Start exploring today and make the most of your time at the University of Wolverhampton!</p>
+<div class="container mt-5" style="background: rgba(0,0,0,0.5); color: #fff; border-radius: 10px; padding: 30px 30px 20px 30px; max-width: 900px;">
+  <h1 style="font-weight: bold;">Welcome To GUIDE TO WLV</h1>
+  <p style="font-size: 1.2rem;">Find your way around the University of Wolverhampton with our interactive guide. GUIDE TO WLV is your go-to resource for navigating the University of Wolverhampton campus. Whether you're a new student, a visitor, or just looking to explore, our interactive guide provides detailed maps, directions, and information about key locations on campus. From lecture halls and libraries to dining options and recreational facilities, GUIDE TO WLV has you covered. Start exploring today and make the most of your time at the University of Wolverhampton!</p>
 </div>
 <div class="container mt-4" style="max-width: 900px;">
   <div class="row">
     <div class="col-md-6 mb-3">
-      <div class="card shadow-sm" style="border-radius:16px;">
-        <img src="/static/gym.jpg" class="d-block w-100" style="height:140px;object-fit:cover;border-radius:16px 16px 0 0;" alt="WLV Gym">
-        <div class="card-body text-center">
-          <h5 class="card-title font-weight-bold">WLV Gym</h5>
-          <p class="mb-1" style="color:#444;">Open Now • Closes 10 PM</p>
+      <a href="/gym" style="text-decoration:none; color:inherit;">
+        <div class="card shadow-sm" style="border-radius:16px;">
+          <img src="/static/gym.jpg" class="d-block w-100" style="height:140px;object-fit:cover;border-radius:16px 16px 0 0;" alt="WLV Gym">
+          <div class="card-body text-center">
+            <h5 class="card-title font-weight-bold">WLV Gym</h5>
+            <p class="mb-1" style="color:#444;">Open Now • Closes 10 PM</p>
+          </div>
         </div>
-      </div>
+      </a>
     </div>
     <div class="col-md-6 mb-3">
-      <div class="card shadow-sm" style="border-radius:16px;">
-        <img src="/static/events.jpg" class="d-block w-100" style="height:140px;object-fit:cover;border-radius:16px 16px 0 0;" alt="SU Events">
-        <div class="card-body text-center">
-          <h5 class="card-title font-weight-bold">SU Events</h5>
-          <p class="mb-1" style="color:#444;">Tonight: Quiz Night, 8 PM</p>
+      <a href="/su-events" style="text-decoration:none; color:inherit;">
+        <div class="card shadow-sm" style="border-radius:16px;">
+          <img src="/static/events.jpg" class="d-block w-100" style="height:140px;object-fit:cover;border-radius:16px 16px 0 0;" alt="SU Events">
+          <div class="card-body text-center">
+            <h5 class="card-title font-weight-bold">SU Events</h5>
+            <p class="mb-1" style="color:#444;">Tonight: Quiz Night, 8 PM</p>
+          </div>
         </div>
-      </div>
+      </a>
     </div>
     <div class="col-md-6 mb-3">
-      <div class="card shadow-sm" style="border-radius:16px;">
-        <img src="/static/bus.jpg" class="d-block w-100" style="height:140px;object-fit:cover;border-radius:16px 16px 0 0;" alt="Campus Bus">
-        <div class="card-body text-center">
-          <h5 class="card-title font-weight-bold">Campus Bus</h5>
-          <p class="mb-1" style="color:#444;">Next Bus : 12 mins</p>
+      <a href="/bus" style="text-decoration:none; color:inherit;">
+        <div class="card shadow-sm" style="border-radius:16px;">
+          <img src="/static/bus.jpg" class="d-block w-100" style="height:140px;object-fit:cover;border-radius:16px 16px 0 0;" alt="Campus Bus">
+          <div class="card-body text-center">
+            <h5 class="card-title font-weight-bold">Campus Bus</h5>
+            <p class="mb-1" style="color:#444;">Next Bus : 12 mins</p>
+          </div>
         </div>
-      </div>
+      </a>
     </div>
     <div class="col-md-6 mb-3">
-      <div class="card shadow-sm" style="border-radius:16px;">
-        <img src="/static/library.jpg" class="d-block w-100" style="height:140px;object-fit:cover;border-radius:16px 16px 0 0;" alt="Harrison Library">
-        <div class="card-body text-center">
-          <h5 class="card-title font-weight-bold">Harrison Library</h5>
-          <p class="mb-1" style="color:#444;">Status: closes at 00:00</p>
+      <a href="/library" style="text-decoration:none; color:inherit;">
+        <div class="card shadow-sm" style="border-radius:16px;">
+          <img src="/static/library.jpg" class="d-block w-100" style="height:140px;object-fit:cover;border-radius:16px 16px 0 0;" alt="Harrison Library">
+          <div class="card-body text-center">
+            <h5 class="card-title font-weight-bold">Harrison Library</h5>
+            <p class="mb-1" style="color:#444;">Status: closes at 00:00</p>
+          </div>
         </div>
-      </div>
+      </a>
     </div>
   </div>
 </div>
 {% endblock %}
+
