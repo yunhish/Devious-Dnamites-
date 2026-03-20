@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  .library-hero {
+    background: url('/static/library2.jpg') center/cover no-repeat;
+    min-height: 350px;
+    position: relative;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .library-hero-overlay {
+    background: rgba(0,0,0,0.5);
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1;
+  }
+  .library-hero-content {
+    position: relative;
+    z-index: 2;
+  }
+  .library-tabs {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+  .library-footer-links {
+    background: #4b5e7a;
+    color: #fff;
+    padding: 1rem 0;
+    margin-top: 2rem;
+    text-align: center;
+  }
+</style>
+
+<div class="library-hero">
+  <div class="library-hero-overlay"></div>
+  <div class="library-hero-content">
+    <h1 style="font-size:3rem; font-weight:bold;">The University Library</h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb justify-content-center" style="background:transparent;">
+        <p style="font-size: 1.3rem; margin-top: 20px;">Welcome.The University Library is at the heart of student academic life and offers helpful support and advice to help you with your studies. Below you will find some helpful links to get you exploring what the University Library can offer you. If you are new to the university, you may find our Library Induction page a great starting point. </p>
+    </div>
+</div>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<div class="container">
+  <ul class="nav nav-tabs library-tabs justify-content-center">
+    <li class="nav-item">
+      <a class="nav-link active" href="#">LIBRARYSEARCH</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">FAQS &amp; LIBRARY ASSIST</a>
+    </li>
+  </ul>
+  <div class="card p-4 mb-4" style="max-width:700px;margin:auto;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+    <form>
+      <div class="form-group mb-3">
+        <input type="text" class="form-control form-control-lg" placeholder="Enter keywords to search for library resources">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Search</button>
+      <div class="d-flex justify-content-between mt-2">
+        <a href="#">Advanced Search &rarr;</a>
+        <a href="#">Databases A-Z &rarr;</a>
+        <a href="#">Collections &rarr;</a>
+      </div>
+    </form>
+  </div>
+
+  <div class="text-center mb-4">
+    {% if is_open %}
+      <span class="badge badge-success p-2">The library is currently open.</span>
+    {% else %}
+      <span class="badge badge-danger p-2">The library is currently closed.</span>
+    {% endif %}
+  </div>
+
+  <h3 class="text-center">Services Offered</h3>
+  <ul class="list-group list-group-flush mb-4" style="max-width:500px;margin:auto;">
+    {% for service in services %}
+      <li class="list-group-item">{{ service }}</li>
+    {% endfor %}
+  </ul>
+
+  <h3 class="text-center">Live Busy Times</h3>
+  <table class="table table-bordered mb-5" style="max-width:500px;margin:auto;">
+    <thead>
+      <tr>
+        <th>Hour</th>
+        <th>Busyness</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for hour, level in busy_times %}
+        <tr>
+          <td>{{ hour }}:00</td>
+          <td>{{ level }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="library-footer-links">
+  <div class="container">
+    <div class="row">
+      <div class="col"><a href="#" class="text-white">LIBRARY HOME</a></div>
+      <div class="col"><a href="#" class="text-white">USING THE LIBRARY</a></div>
+      <div class="col"><a href="#" class="text-white">SUBJECT RESOURCES</a></div>
+      <div class="col"><a href="#" class="text-white">RESEARCHERS</a></div>
+      <div class="col"><a href="#" class="text-white">ACADEMICS</a></div>
+      <div class="col"><a href="#" class="text-white">SKILLS FOR LEARNING</a></div>
+      <div class="col"><a href="#" class="text-white">CONTACT US</a></div>
+      <div class="col"><a href="#" class="text-white">MY ACCOUNT</a></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

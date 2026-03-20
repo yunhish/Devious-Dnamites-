@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% block title %}Students' Union – Guide to WLV{% endblock %}
+{% block content %}
+<style>
+  .su-header {
+    background: #23232b;
+    color: #fff;
+    padding: 18px 0 10px 0;
+    text-align: center;
+  }
+  .su-header img { height: 48px; margin-bottom: 8px; }
+  .su-nav {
+    background: #23232b;
+    color: #fff;
+    font-weight: 600;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #bada55;
+  }
+  .su-nav a { color: #fff; margin: 0 18px; text-decoration: none; }
+  .su-nav a:hover { color: #bada55; }
+  .su-banner {
+    background: url('/static/su-banner.jpg') center/cover no-repeat;
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+  }
+  .su-banner-overlay {
+    background: rgba(0,0,0,0.45);
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1;
+  }
+  .su-banner-content {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    width: 100%;
+  }
+  .su-banner-content h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 8px #23232b;
+  }
+  .su-banner-content h2 {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #bada55;
+    text-shadow: 2px 2px 8px #23232b;
+  }
+  .su-section-title {
+    color: #bada55;
+    font-weight: bold;
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    text-align: center;
+  }
+  .su-card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+  }
+  .su-card {
+    background: #e9ecef;
+    border-radius: 14px;
+    padding: 28px 22px;
+    min-width: 210px;
+    max-width: 260px;
+    flex: 1 1 210px;
+    text-align: center;
+    font-weight: 600;
+    color: #23232b;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  }
+  .su-card-title { font-size: 1.2rem; margin-bottom: 8px; }
+  .su-card-desc { font-size: 0.98rem; color: #444; font-weight: 400; }
+  .su-discount-banner {
+    background: linear-gradient(90deg, #ff00cc, #3333ff 70%, #bada55 100%);
+    color: #fff;
+    border-radius: 12px;
+    padding: 32px 18px;
+    text-align: center;
+    margin: 2.5rem 0 1.5rem 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+  .su-discount-banner span { font-size: 1.1rem; font-weight: 400; display: block; margin-top: 8px; }
+</style>
+
+<div class="su-header">
+  <img src="/static/Students' Union logo.jpg" alt="Students' Union Logo">
+</div>
+<div class="su-nav">
+  <a href="/">Home</a>
+  <a href="#">About Us</a>
+  <a href="#">Student Voice</a>
+  <a href="#">Help & Advice</a>
+  <a href="#">What's On</a>
+  <a href="#">Get Involved</a>
+  <a href="#">Food & Drink</a>
+</div>
+<div class="su-banner">
+  <div class="su-banner-overlay"></div>
+  <div class="su-banner-content">
+    <h1>WELCOME TO</h1>
+    <h2>WOLVES STUDENTS' UNION</h2>
+  </div>
+</div>
+
+<div class="su-card-grid">
+  <div class="su-card">
+    <div class="su-card-title">Help & Advice</div>
+    <div class="su-card-desc">Get Advice</div>
+  </div>
+  <div class="su-card">
+    <div class="su-card-title">Get Involved</div>
+    <div class="su-card-desc">Get Involved</div>
+  </div>
+  <div class="su-card">
+    <div class="su-card-title">Student Voice</div>
+    <div class="su-card-desc">Student Voice</div>
+  </div>
+  <div class="su-card">
+    <div class="su-card-title">Your Officer Team</div>
+    <div class="su-card-desc">Your Officer Team</div>
+  </div>
+</div>
+
+<div class="su-discount-banner">
+  FULL OF STUDENT FLAVOUR<br>
+  <span>Download the FREE app for discounts, legal ID, and campus life!</span>
+</div>
+
+<div class="su-section-title">Upcoming Events</div>
+<div class="container" style="max-width:900px;">
+  <div class="card mb-4">
+    <div class="card-body">
+      <h4 class="card-title">Tonight: Quiz Night</h4>
+      <p class="card-text">Join us for a fun-filled quiz night at the SU Lounge. Prizes for the winning team!<br>
+      <strong>Time:</strong> 8:00 PM<br>
+      <strong>Location:</strong> SU Lounge, City Campus</p>
+    </div>
+  </div>
+  <div class="card mb-4">
+    <div class="card-body">
+      <h4 class="card-title">Upcoming: Movie Marathon</h4>
+      <p class="card-text">Relax and enjoy a selection of blockbuster movies with friends.<br>
+      <strong>Date:</strong> Friday, March 28<br>
+      <strong>Time:</strong> 6:00 PM<br>
+      <strong>Location:</strong> SU Cinema Room</p>
+    </div>
+  </div>
+  <div class="card mb-4">
+    <div class="card-body">
+      <h4 class="card-title">Societies Fair</h4>
+      <p class="card-text">Meet and join student societies, clubs, and groups.<br>
+      <strong>Date:</strong> Monday, March 31<br>
+      <strong>Time:</strong> 11:00 AM - 3:00 PM<br>
+      <strong>Location:</strong> SU Main Hall</p>
+    </div>
+  </div>
+  <a href="/" class="btn btn-outline-secondary"><i class="fa fa-arrow-left"></i> Back to Home</a>
+</div>
+{% endblock %}
