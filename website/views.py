@@ -1,8 +1,34 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from . import db
+from website.library_utils import is_library_open, get_library_services, get_busy_times
 
 views = Blueprint('views', __name__)
+
+# SU Events page
+@views.route('/su-events')
+def su_events():
+    return render_template('su_events.html')
+
+# Gym section subpages
+@views.route('/gym/facilities')
+def gym_facilities():
+    return render_template('gym_facilities.html')
+
+@views.route('/gym/membership')
+def gym_membership():
+    return render_template('gym_membership.html')
+
+@views.route('/gym/hours')
+def gym_hours():
+    return render_template('gym_hours.html')
+
+@views.route('/library')
+def library():
+    is_open = is_library_open()
+    services = get_library_services()
+    busy_times = get_busy_times()
+    return render_template('library.html', is_open=is_open, services=services, busy_times=busy_times)
 
 @views.route('/')
 def home():
@@ -10,7 +36,7 @@ def home():
 
 @views.route('/dashboard')
 def dashboard():
-    return render_template('Dashboard.html')
+    return render_template('dashboard.html')
 
 @views.route('/bus')
 def bus():
@@ -64,4 +90,3 @@ def search():
 def settings():
     # You can implement settings later
     return render_template("settings.html")
-
