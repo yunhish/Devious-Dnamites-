@@ -22,8 +22,6 @@ Priority: P0
 | **Evidence** | 33.3% most needed feature; open feedback: "give useful notifications" |
 | **Priority** | P0 |
 
----
-
 ## MVP Sprint 2: Supporting Features (Should Have)
 
 *These address significant pain points and improve the experience.*
@@ -39,8 +37,6 @@ Priority: P0
 
 | **Evidence** | Open feedback: "easy access to university updates" |
 | **Priority** | P1 |
-
----
 
 ## MVP Sprint 3: Enhancement Features (Nice to Have)
 
