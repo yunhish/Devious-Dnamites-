@@ -98,7 +98,7 @@ Priority: P0
 ## Key Survey Insights Driving This Plan
 
 | Finding | Impact on MVP |
-|---------|---------------|
+
 60%: struggle with assignment deadlines | Sprint 1 priority |
 50%: want grade access most | Sprint 1 priority |
 33.3%: want notifications | Sprint 1 priority |
