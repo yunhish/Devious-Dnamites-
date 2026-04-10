@@ -1,122 +1,168 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% block title %}University Library – Guide to WLV{% endblock %}
 {% block content %}
 <style>
   .library-hero {
-    background: url('/static/library2.jpg') center/cover no-repeat;
-    min-height: 350px;
     position: relative;
-    color: white;
+    width: 50vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -25vw;
+    margin-right: -25vw;
+    height: 300px;
+    background-image: url('/static/library2.jpg');
+    background-size: cover;
+    background-position: center top;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
   }
   .library-hero-overlay {
-    background: rgba(0,0,0,0.5);
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    z-index: 1;
+    background: rgba(0,0,0,0.55);
+    padding: 40px 60px;
+    border-radius: 8px;
+    text-align: center;
+    color: white;
+    max-width: 700px;
+    width: 100%;
   }
-  .library-hero-content {
-    position: relative;
-    z-index: 2;
+  .section-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    margin-bottom: 24px;
   }
-  .library-tabs {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-  }
-  .library-footer-links {
-    background: #4b5e7a;
+  .hours-table th {
+    background-color: #4b5e7a;
     color: #fff;
-    padding: 1rem 0;
-    margin-top: 2rem;
     text-align: center;
   }
+  .hours-table td { text-align: center; vertical-align: middle; }
+  .hours-table tr.today-row { background: #e9ecef; font-weight: 600; }
+  .status-open  { background: #28a745; color: #fff; padding: 5px 14px; border-radius: 20px; font-weight: 600; }
+  .status-closed  { background: #dc3545; color: #fff; padding: 5px 14px; border-radius: 20px; font-weight: 600; }
+  .facility-icon { font-size: 2rem; margin-bottom: 8px; }
+  .busyness-bar-wrap { background: #e9ecef; border-radius: 8px; height: 14px; margin-bottom: 4px; }
+  .busyness-bar { height: 14px; border-radius: 8px; background: linear-gradient(90deg, #4b5e7a, #6a7ba2); }
 </style>
 
-<div class="library-hero">
-  <div class="library-hero-overlay"></div>
-  <div class="library-hero-content">
-    <h1 style="font-size:3rem; font-weight:bold;">The University Library</h1>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb justify-content-center" style="background:transparent;">
-        <p style="font-size: 1.3rem; margin-top: 20px;">Welcome.The University Library is at the heart of student academic life and offers helpful support and advice to help you with your studies. Below you will find some helpful links to get you exploring what the University Library can offer you. If you are new to the university, you may find our Library Induction page a great starting point. </p>
-    </div>
-</div>
-      </ol>
-    </nav>
-  </div>
-</div>
-
-<div class="container">
-  <ul class="nav nav-tabs library-tabs justify-content-center">
-    <li class="nav-item">
-      <a class="nav-link active" href="#">LIBRARYSEARCH</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">FAQS &amp; LIBRARY ASSIST</a>
-    </li>
-  </ul>
-  <div class="card p-4 mb-4" style="max-width:700px;margin:auto;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
-    <form>
-      <div class="form-group mb-3">
-        <input type="text" class="form-control form-control-lg" placeholder="Enter keywords to search for library resources">
+    <!-- Hero Banner -->
+    <div class="library-hero">
+      <div class="library-hero-overlay">
+        <h1 style="font-size:2.5rem; font-weight:bold;">
+          <i class="fa fa-book"></i> University Library
+        </h1>
+        <p style="font-size:1.1rem; margin-top:10px;">
+          Opening hours, live busyness, services and resources for the University of Wolverhampton Library.
+        </p>
       </div>
-      <button type="submit" class="btn btn-primary btn-block">Search</button>
-      <div class="d-flex justify-content-between mt-2">
-        <a href="#">Advanced Search &rarr;</a>
-        <a href="#">Databases A-Z &rarr;</a>
-        <a href="#">Collections &rarr;</a>
-      </div>
-    </form>
-  </div>
-
-  <div class="text-center mb-4">
-    {% if is_open %}
-      <span class="badge badge-success p-2">The library is currently open.</span>
-    {% else %}
-      <span class="badge badge-danger p-2">The library is currently closed.</span>
-    {% endif %}
-  </div>
-
-  <h3 class="text-center">Services Offered</h3>
-  <ul class="list-group list-group-flush mb-4" style="max-width:500px;margin:auto;">
-    {% for service in services %}
-      <li class="list-group-item">{{ service }}</li>
-    {% endfor %}
-  </ul>
-
-  <h3 class="text-center">Live Busy Times</h3>
-  <table class="table table-bordered mb-5" style="max-width:500px;margin:auto;">
-    <thead>
-      <tr>
-        <th>Hour</th>
-        <th>Busyness</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for hour, level in busy_times %}
-        <tr>
-          <td>{{ hour }}:00</td>
-          <td>{{ level }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-
-<div class="library-footer-links">
-  <div class="container">
-    <div class="row">
-      <div class="col"><a href="#" class="text-white">LIBRARY HOME</a></div>
-      <div class="col"><a href="#" class="text-white">USING THE LIBRARY</a></div>
-      <div class="col"><a href="#" class="text-white">SUBJECT RESOURCES</a></div>
-      <div class="col"><a href="#" class="text-white">RESEARCHERS</a></div>
-      <div class="col"><a href="#" class="text-white">ACADEMICS</a></div>
-      <div class="col"><a href="#" class="text-white">SKILLS FOR LEARNING</a></div>
-      <div class="col"><a href="#" class="text-white">CONTACT US</a></div>
-      <div class="col"><a href="#" class="text-white">MY ACCOUNT</a></div>
     </div>
-  </div>
-</div>
-{% endblock %}
+
+    <div style="max-width:900px; margin:36px auto; padding: 0 16px;">
+
+      <!-- Live Status Banner -->
+      <div class="section-card" style="background: linear-gradient(135deg, #4b5e7a, #6a7ba2); color:white; text-align:center;">
+        <h4 style="margin-bottom:12px;"><i class="fa fa-signal"></i> Today's Live Status</h4>
+        <div class="row justify-content-center">
+          <div class="col-md-4 col-6 mb-2">
+            <div style="background:rgba(255,255,255,0.15); border-radius:10px; padding:14px;">
+              <div style="font-size:0.8rem; opacity:0.85;">Status</div>
+              <div style="margin:6px 0;">
+                {% if is_open %}
+                  <span class="status-open">Open</span>
+                {% else %}
+                  <span class="status-closed">Closed</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-6 mb-2">
+            <div style="background:rgba(255,255,255,0.15); border-radius:10px; padding:14px;">
+              <div style="font-size:0.8rem; opacity:0.85;">Services</div>
+              <div style="font-size:1.1rem; font-weight:bold; margin:4px 0;">{{ services|length }} available</div>
+            </div>
+          </div>
+          <div class="col-md-4 col-6 mb-2">
+            <div style="background:rgba(255,255,255,0.15); border-radius:10px; padding:14px;">
+              <div style="font-size:0.8rem; opacity:0.85;">Current Busyness</div>
+              <div style="margin:6px 0;">
+                {% set now = busy_times|selectattr('0', 'equalto', (now().hour if now else 12))|list %}
+                {% if now and now[0][1] %}
+                  <span class="status-open">{{ now[0][1] }}</span>
+                {% else %}
+                  <span class="status-closed">Unknown</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top:14px; font-size:0.8rem; opacity:0.75;">
+          <i class="fa fa-info-circle"></i> Busyness data is estimated. For live updates, check the library portal.
+        </p>
+      </div>
+
+      <!-- Typical Busyness -->
+      <div class="section-card">
+        <h4 style="color:#4b5e7a; margin-bottom:18px;"><i class="fa fa-bar-chart"></i> Typical Busyness by Hour</h4>
+        <p style="font-size:0.88rem; color:#777; margin-bottom:16px;">Best times to visit: early morning or late evening.</p>
+        {% for hour, level in busy_times %}
+        <div class="d-flex align-items-center mb-1">
+          <span style="width:52px; font-size:0.8rem; color:#555;">{{ hour }}:00</span>
+          <div class="busyness-bar-wrap flex-grow-1">
+            <div class="busyness-bar" style="width:{% if level == 'Low' %}30{% elif level == 'Medium' %}60{% else %}90{% endif %}%"></div>
+          </div>
+          <span style="width:60px; text-align:right; font-size:0.78rem; color:#888;">{{ level }}</span>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Opening Hours -->
+      <div class="section-card">
+        <h4 style="color:#4b5e7a; margin-bottom:16px;"><i class="fa fa-clock-o"></i> Opening Hours</h4>
+        <div class="table-responsive">
+          <table class="table table-bordered hours-table">
+            <thead>
+              <tr>
+                <th>Day</th>
+                <th>Opening</th>
+                <th>Closing</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Monday – Friday</td><td>07:00</td><td>24:00</td></tr>
+              <tr><td>Saturday</td><td>09:00</td><td>20:00</td></tr>
+              <tr><td>Sunday</td><td>10:00</td><td>18:00</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.82rem; color:#888;">Hours may vary during exam periods and holidays.</p>
+      </div>
+
+      <!-- Services -->
+      <div class="section-card">
+        <h4 style="color:#4b5e7a; margin-bottom:20px;"><i class="fa fa-th-large"></i> Services</h4>
+        <div class="row text-center">
+          {% for service in services %}
+          <div class="col-md-3 col-6 mb-3">
+            <div class="facility-icon">📖</div>
+            <strong>{{ service }}</strong>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="section-card text-center" style="background:#f5f0fa;">
+        <h5 style="color:#4b5e7a;">Ready to get started?</h5>
+        <p style="color:#555; margin-bottom:16px;">Explore library resources, book a study room, or find out more on the official library portal.</p>
+        <a href="https://www.wlv.ac.uk/lib/" target="_blank" class="btn btn-primary" style="background:#4b5e7a; border-color:#4b5e7a; border-radius:20px; padding:10px 30px;">
+          <i class="fa fa-external-link"></i> WLV Library Portal
+        </a>
+        <a href="/dashboard" class="btn btn-outline-secondary ml-2" style="border-radius:20px; padding:10px 30px;">
+          <i class="fa fa-arrow-left"></i> Back to Dashboard
+        </a>
+      </div>
+
+    </div>
+  {% endblock %}
