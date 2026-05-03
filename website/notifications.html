@@ -1,0 +1,310 @@
+{% extends "base.html" %}
+{% block title %}Notifications – Guide to WLV{% endblock %}
+
+{% block content %}
+<style>
+  .notif-hero {
+    background: linear-gradient(135deg, #5c2d91, #7b3fb5);
+    color: white;
+    text-align: center;
+    padding: 28px 20px 20px;
+    border-radius: 0 0 16px 16px;
+    margin-bottom: 24px;
+  }
+  .notif-hero h2 { font-weight: 700; margin-bottom: 4px; }
+  .notif-hero p { opacity: 0.85; font-size: 0.92rem; margin: 0; }
+  .section-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+  }
+  .section-card h5 { color: #5c2d91; font-weight: 700; margin-bottom: 16px; }
+  .toggle-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .toggle-row:last-child { border-bottom: none; }
+  .toggle-info h6 { margin: 0 0 2px; font-weight: 600; color: #2d2d2d; font-size: 0.95rem; }
+  .toggle-info p { margin: 0; font-size: 0.8rem; color: #888; }
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    border-radius: 26px;
+    transition: .3s;
+  }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px; width: 18px;
+    left: 4px; bottom: 4px;
+    background-color: white;
+    border-radius: 50%;
+    transition: .3s;
+  }
+  input:checked + .slider { background-color: #5c2d91; }
+  input:checked + .slider:before { transform: translateX(22px); }
+  .alert-item {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .alert-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .alert-text h6 { margin: 0 0 2px; font-weight: 600; font-size: 0.9rem; }
+  .alert-text p { margin: 0; font-size: 0.8rem; color: #666; }
+  .alert-time { font-size: 0.75rem; color: #aaa; margin-left: auto; white-space: nowrap; }
+  .range-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 4px;
+  }
+  input[type=range] { accent-color: #5c2d91; width: 100%; }
+  .save-btn {
+    background: #5c2d91;
+    border: none;
+    color: #fff;
+    border-radius: 24px;
+    padding: 10px 36px;
+    font-weight: 600;
+    font-size: 1rem;
+    width: 100%;
+    transition: background 0.2s;
+  }
+  .save-btn:hover { background: #4a2275; }
+  .badge-new {
+    background: #5c2d91;
+    color: white;
+    border-radius: 12px;
+    padding: 2px 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+</style>
+
+<div class="notif-hero">
+  <h2><i class="fa fa-bell"></i> Notifications</h2>
+  <p>Choose what you want to be alerted about so you never miss anything on campus.</p>
+</div>
+
+<div style="max-width:700px; margin:0 auto;">
+
+  <!-- Recent Alerts -->
+  <div class="section-card">
+    <h5><i class="fa fa-history"></i> Recent Alerts <span class="badge-new">3 NEW</span></h5>
+
+    <div class="alert-item">
+      <div class="alert-icon">🚌</div>
+      <div class="alert-text">
+        <h6>Bus to Walsall delayed by 8 minutes</h6>
+        <p>The 14:00 Route A service is running late due to traffic on Ring Road.</p>
+      </div>
+      <div class="alert-time">2 min ago</div>
+    </div>
+
+    <div class="alert-item">
+      <div class="alert-icon">🏋️</div>
+      <div class="alert-text">
+        <h6>Gym now less than 50% busy</h6>
+        <p>Current occupancy has dropped — good time to head over!</p>
+      </div>
+      <div class="alert-time">18 min ago</div>
+    </div>
+
+    <div class="alert-item">
+      <div class="alert-icon">🎉</div>
+      <div class="alert-text">
+        <h6>SU Event tonight: Quiz Night at 8 PM</h6>
+        <p>Free entry for all students. Teams of up to 6. Sign up at the SU desk.</p>
+      </div>
+      <div class="alert-time">2 hrs ago</div>
+    </div>
+  </div>
+
+  <!-- Bus Notifications -->
+  <div class="section-card">
+    <h5><i class="fa fa-bus"></i> Campus Bus Alerts</h5>
+
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <h6>Bus delay alerts</h6>
+        <p>Get notified when a bus is running more than 5 minutes late.</p>
+      </div>
+      <label class="switch"><input type="checkbox" checked onchange="savePrefs()"><span class="slider"></span></label>
+    </div>
+
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <h6>"Next bus" reminders</h6>
+        <p>Remind me when the next bus is a set number of minutes away.</p>
+      </div>
+      <label class="switch"><input type="checkbox" id="busReminder" onchange="toggleBusReminder()"><span class="slider"></span></label>
+    </div>
+
+    <div id="busReminderOptions" style="display:none; padding: 12px 0 4px;">
+      <label style="font-size:0.85rem; color:#555; font-weight:600;">Remind me when bus is:</label>
+      <input type="range" min="5" max="30" value="10" step="5" id="busMinutes" oninput="updateBusLabel()">
+      <div class="range-label"><span>5 min</span><span id="busLabel" style="color:#5c2d91; font-weight:700;">10 min away</span><span>30 min</span></div>
+    </div>
+
+    <div class="toggle-row" style="margin-top:8px;">
+      <div class="toggle-info">
+        <h6>Last bus of the day warning</h6>
+        <p>Alert me 30 minutes before the last bus departs.</p>
+      </div>
+      <label class="switch"><input type="checkbox" checked onchange="savePrefs()"><span class="slider"></span></label>
+    </div>
+  </div>
+
+  <!-- Gym Notifications -->
+  <div class="section-card">
+    <h5><i class="fa fa-heartbeat"></i> WLV Gym Alerts</h5>
+
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <h6>Gym occupancy drops below threshold</h6>
+        <p>Notify me when the gym becomes less busy than my preferred level.</p>
+      </div>
+      <label class="switch"><input type="checkbox" checked id="gymOccupancy" onchange="toggleGymOccupancy()"><span class="slider"></span></label>
+    </div>
+
+    <div id="gymOccupancyOptions" style="padding: 12px 0 4px;">
+      <label style="font-size:0.85rem; color:#555; font-weight:600;">Alert me when occupancy is below:</label>
+      <input type="range" min="20" max="80" value="50" step="10" id="gymPercent" oninput="updateGymLabel()">
+      <div class="range-label"><span>20%</span><span id="gymLabel" style="color:#5c2d91; font-weight:700;">50% capacity</span><span>80%</span></div>
+    </div>
+
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <h6>Class reminders</h6>
+        <p>Remind me 30 minutes before a gym class I've bookmarked starts.</p>
+      </div>
+      <label class="switch"><input type="checkbox" onchange="savePrefs()"><span class="slider"></span></label>
+    </div>
+
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <h6>Gym closing soon</h6>
+        <p>Alert me 45 minutes before the gym closes for the day.</p>
+      </div>
+      <label class="switch"><input type="checkbox" checked onchange="savePrefs()"><span class="slider"></span></label>
+    </div>
+  </div>
+
+  <!-- General Notifications -->
+  <div class="section-card">
+    <h5><i class="fa fa-bell-o"></i> General Alerts</h5>
+
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <h6>SU events tonight</h6>
+        <p>Daily summary of Students' Union events happening that evening.</p>
+      </div>
+      <label class="switch"><input type="checkbox" checked onchange="savePrefs()"><span class="slider"></span></label>
+    </div>
+
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <h6>Campus news & announcements</h6>
+        <p>Important notices from the University of Wolverhampton.</p>
+      </div>
+      <label class="switch"><input type="checkbox" checked onchange="savePrefs()"><span class="slider"></span></label>
+    </div>
+
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <h6>Weekly campus digest</h6>
+        <p>A Monday morning summary of what's happening on campus this week.</p>
+      </div>
+      <label class="switch"><input type="checkbox" onchange="savePrefs()"><span class="slider"></span></label>
+    </div>
+  </div>
+
+  <!-- Delivery method -->
+  <div class="section-card">
+    <h5><i class="fa fa-cog"></i> Notification Delivery</h5>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <h6>In-app notifications</h6>
+        <p>Show alerts inside the Guide to WLV website.</p>
+      </div>
+      <label class="switch"><input type="checkbox" checked onchange="savePrefs()"><span class="slider"></span></label>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <h6>Email notifications</h6>
+        <p>Send alerts to your registered university email.</p>
+      </div>
+      <label class="switch"><input type="checkbox" onchange="savePrefs()"><span class="slider"></span></label>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <h6>Browser push notifications</h6>
+        <p>Receive alerts even when you're not on the site.</p>
+      </div>
+      <label class="switch"><input type="checkbox" id="pushToggle" onchange="requestPush()"><span class="slider"></span></label>
+    </div>
+  </div>
+
+  <button class="save-btn" onclick="saveAndConfirm()">
+    <i class="fa fa-check"></i> Save Preferences
+  </button>
+  <p id="savedMsg" style="text-align:center; color:#28a745; font-weight:600; margin-top:12px; display:none;">✅ Preferences saved!</p>
+
+</div>
+
+<script>
+  function toggleBusReminder() {
+    const show = document.getElementById('busReminder').checked;
+    document.getElementById('busReminderOptions').style.display = show ? 'block' : 'none';
+  }
+  function updateBusLabel() {
+    document.getElementById('busLabel').textContent = document.getElementById('busMinutes').value + ' min away';
+  }
+  function toggleGymOccupancy() {
+    const show = document.getElementById('gymOccupancy').checked;
+    document.getElementById('gymOccupancyOptions').style.display = show ? 'block' : 'none';
+  }
+  function updateGymLabel() {
+    document.getElementById('gymLabel').textContent = document.getElementById('gymPercent').value + '% capacity';
+  }
+  function requestPush() {
+    if (document.getElementById('pushToggle').checked) {
+      if ('Notification' in window) {
+        Notification.requestPermission();
+      }
+    }
+  }
+  function savePrefs() { /* preferences auto-save on toggle */ }
+  function saveAndConfirm() {
+    const msg = document.getElementById('savedMsg');
+    msg.style.display = 'block';
+    setTimeout(() => msg.style.display = 'none', 3000);
+  }
+</script>
+{% endblock %}

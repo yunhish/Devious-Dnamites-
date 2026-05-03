@@ -10,15 +10,7 @@ def home():
 
 @views.route('/dashboard')
 def dashboard():
-    return render_template('Dashboard.html')
-
-@views.route('/bus')
-def bus():
-    return render_template('bus.html')
-
-@views.route('/gym')
-def gym():
-    return render_template('gym.html')
+    return render_template('dashboard.html')
 
 @views.route('/profile')
 @login_required
@@ -58,6 +50,29 @@ def about():
 def search():
     query = request.args.get('q', '')
     return render_template('search.html', query=query)
+
+@views.route('/enquiry', methods=['GET', 'POST'])
+def enquiry():
+    if request.method == 'POST':
+        flash('Enquiry submitted successfully! We will get back to you within 2 working days.', 'success')
+        return redirect(url_for('views.enquiry'))
+    return render_template('enquiry.html')
+
+@views.route('/map')
+def campus_map():
+    return render_template('map.html')
+
+@views.route('/notifications')
+def notifications():
+    return render_template('notifications.html')
+
+@views.route('/bus')
+def bus():
+    return render_template('bus.html')
+
+@views.route('/gym')
+def gym():
+    return render_template('gym.html')
 
 @views.route('/settings', methods=['GET', 'POST'])
 @login_required

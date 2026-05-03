@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% block title %}Enquiry – Guide to WLV{% endblock %}
+
+{% block content %}
+<style>
+  .enquiry-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 36px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+    max-width: 700px;
+    margin: 40px auto;
+  }
+  .enquiry-card h2 {
+    color: #5c2d91;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .enquiry-card p.subtitle {
+    color: #777;
+    margin-bottom: 28px;
+    font-size: 0.95rem;
+  }
+  .form-label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+  }
+  .form-control:focus {
+    border-color: #5c2d91;
+    box-shadow: 0 0 0 0.2rem rgba(92,45,145,0.20);
+  }
+  .btn-submit {
+    background: #5c2d91;
+    border: none;
+    color: #fff;
+    border-radius: 24px;
+    padding: 10px 36px;
+    font-size: 1rem;
+    font-weight: 600;
+    width: 100%;
+    margin-top: 8px;
+    transition: background 0.2s;
+  }
+  .btn-submit:hover { background: #4a2275; color: #fff; }
+  .category-badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 2px solid #5c2d91;
+    color: #5c2d91;
+    margin: 4px;
+    transition: all 0.15s;
+  }
+  .category-badge.active, .category-badge:hover {
+    background: #5c2d91;
+    color: #fff;
+  }
+  .success-box {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    display: none;
+  }
+  .success-box h4 { color: #155724; }
+  .info-strip {
+    background: #f5f0fa;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    font-size: 0.88rem;
+    color: #555;
+  }
+  .info-strip i { color: #5c2d91; margin-right: 6px; }
+</style>
+
+<div class="enquiry-card">
+  <h2><i class="fa fa-envelope"></i> Contact & Enquiry</h2>
+  <p class="subtitle">Have a question about campus life, the website, or anything WLV related? Fill in the form below and we'll get back to you.</p>
+
+  <div class="info-strip">
+    <i class="fa fa-clock-o"></i> We aim to respond within <strong>2 working days</strong>.
+    &nbsp;&nbsp;
+    <i class="fa fa-lock"></i> Your details are kept <strong>private</strong> and not shared.
+  </div>
+
+  <!-- Success message (shown after submit) -->
+  <div class="success-box" id="successBox">
+    <div style="font-size:2.5rem;">✅</div>
+    <h4>Enquiry Submitted!</h4>
+    <p style="color:#155724; margin:0;">Thanks for getting in touch. We'll respond to your email within 2 working days.</p>
+  </div>
+
+  <form id="enquiryForm" method="POST" action="/enquiry">
+    <input type="hidden" name="csrf_token" value="{{ '' }}">
+
+    <!-- Name -->
+    <div class="form-group mb-3">
+      <label class="form-label">Full Name *</label>
+      <input type="text" class="form-control" name="name" placeholder="e.g. Jane Smith" required
+        value="{{ current_user.first_name if current_user.is_authenticated else '' }}">
+    </div>
+
+    <!-- Email -->
+    <div class="form-group mb-3">
+      <label class="form-label">University Email *</label>
+      <input type="email" class="form-control" name="email" placeholder="e.g. j.smith@wlv.ac.uk" required
+        value="{{ current_user.email if current_user.is_authenticated else '' }}">
+    </div>
+
+    <!-- Category -->
+    <div class="form-group mb-3">
+      <label class="form-label">Category *</label>
+      <input type="hidden" name="category" id="categoryInput" required>
+      <div>
+        <span class="category-badge" onclick="selectCategory(this, 'Campus Bus')">🚌 Campus Bus</span>
+        <span class="category-badge" onclick="selectCategory(this, 'WLV Gym')">🏋️ WLV Gym</span>
+        <span class="category-badge" onclick="selectCategory(this, 'Library')">📚 Library</span>
+        <span class="category-badge" onclick="selectCategory(this, 'Website Feedback')">💻 Website Feedback</span>
+        <span class="category-badge" onclick="selectCategory(this, 'General')">❓ General</span>
+        <span class="category-badge" onclick="selectCategory(this, 'Other')">📋 Other</span>
+      </div>
+    </div>
+
+    <!-- Subject -->
+    <div class="form-group mb-3">
+      <label class="form-label">Subject *</label>
+      <input type="text" class="form-control" name="subject" placeholder="Brief subject of your enquiry" required>
+    </div>
+
+    <!-- Message -->
+    <div class="form-group mb-3">
+      <label class="form-label">Message *</label>
+      <textarea class="form-control" name="message" rows="5" placeholder="Describe your enquiry in as much detail as possible..." required></textarea>
+    </div>
+
+    <!-- Priority -->
+    <div class="form-group mb-4">
+      <label class="form-label">Priority</label>
+      <select class="form-control" name="priority">
+        <option value="Low">Low – just a general question</option>
+        <option value="Medium" selected>Medium – needs attention soon</option>
+        <option value="High">High – urgent issue</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-submit">
+      <i class="fa fa-paper-plane"></i> Submit Enquiry
+    </button>
+  </form>
+</div>
+
+<script>
+  function selectCategory(el, value) {
+    document.querySelectorAll('.category-badge').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('categoryInput').value = value;
+  }
+
+  document.getElementById('enquiryForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (!document.getElementById('categoryInput').value) {
+      alert('Please select a category.');
+      return;
+    }
+    this.style.display = 'none';
+    document.getElementById('successBox').style.display = 'block';
+    // In production this would POST to Flask — for now shows success UI
+  });
+</script>
+{% endblock %}

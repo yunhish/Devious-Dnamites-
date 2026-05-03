@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+{% block title %}Campus Map – Guide to WLV{% endblock %}
+
+{% block content %}
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+  .map-hero {
+    background: linear-gradient(135deg, #5c2d91, #7b3fb5);
+    color: white;
+    text-align: center;
+    padding: 28px 20px 20px;
+    border-radius: 0 0 16px 16px;
+    margin-bottom: 20px;
+  }
+  .map-hero h2 { font-weight: 700; margin-bottom: 4px; }
+  .map-hero p { opacity: 0.85; font-size: 0.92rem; margin: 0; }
+  #map {
+    height: 480px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    margin-bottom: 20px;
+  }
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+    justify-content: center;
+  }
+  .filter-btn {
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 2px solid #5c2d91;
+    background: #fff;
+    color: #5c2d91;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-btn.active, .filter-btn:hover {
+    background: #5c2d91;
+    color: #fff;
+  }
+  .location-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .location-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 14px 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    border-left: 4px solid #5c2d91;
+  }
+  .location-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(92,45,145,0.18);
+  }
+  .location-card h6 { margin: 0 0 4px; font-weight: 700; color: #2d2d2d; }
+  .location-card p { margin: 0; font-size: 0.8rem; color: #777; }
+  .legend {
+    background: #fff;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 0.85rem;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+</style>
+
+<div class="map-hero">
+  <h2><i class="fa fa-map-marker"></i> Interactive Campus Map</h2>
+  <p>Click any marker to see live info about that location.</p>
+</div>
+
+<!-- Filter buttons -->
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterMarkers('all', this)">📍 All</button>
+  <button class="filter-btn" onclick="filterMarkers('bus', this)">🚌 Bus Stops</button>
+  <button class="filter-btn" onclick="filterMarkers('gym', this)">🏋️ Gym</button>
+  <button class="filter-btn" onclick="filterMarkers('library', this)">📚 Library</button>
+  <button class="filter-btn" onclick="filterMarkers('food', this)">🍽️ Food</button>
+  <button class="filter-btn" onclick="filterMarkers('academic', this)">🏫 Academic</button>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#5c2d91;"></div> Bus Stop</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#28a745;"></div> Gym / Sport</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#007bff;"></div> Library</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fd7e14;"></div> Food & Drink</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#6c757d;"></div> Academic</div>
+</div>
+
+<!-- Map -->
+<div id="map"></div>
+
+<!-- Location quick-jump list -->
+<h5 style="color:#5c2d91; font-weight:700; margin-bottom:12px;">📍 All Locations</h5>
+<div class="location-list" id="locationList"></div>
+
+<script>
+  // Initialise map centred on Wolverhampton City Campus
+  const map = L.map('map').setView([52.5858, -2.1285], 15);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  function makeIcon(color) {
+    return L.divIcon({
+      className: '',
+      html: `<div style="width:18px;height:18px;background:${color};border-radius:50%;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.35);"></div>`,
+      iconSize: [18, 18],
+      iconAnchor: [9, 9],
+      popupAnchor: [0, -12]
+    });
+  }
+
+  const locations = [
+    {
+      id: 'city-bus', type: 'bus', lat: 52.5858, lng: -2.1292, color: '#5c2d91',
+      name: '🚌 City Campus Bus Stop',
+      popup: '<b>City Campus Bus Stop</b><br>Wulfruna St – main departure point.<br><span style="color:#28a745;font-weight:600;">Next to Walsall: 12 min</span><br><a href="/bus" style="color:#5c2d91;">View full timetable →</a>'
+    },
+    {
+      id: 'walsall-bus', type: 'bus', lat: 52.5861, lng: -2.1279, color: '#5c2d91',
+      name: '🚌 Train Station Stop',
+      popup: '<b>Wolverhampton Train Station Stop</b><br>Interchange stop – connecting rail services.<br><a href="/bus" style="color:#5c2d91;">View full timetable →</a>'
+    },
+    {
+      id: 'gym', type: 'gym', lat: 52.5842, lng: -2.1265, color: '#28a745',
+      name: '🏋️ WLV Sports Centre (Gym)',
+      popup: '<b>WLV Sports Centre</b><br><span style="color:#28a745;font-weight:600;">Open Now – Closes 22:00</span><br>Gym · Pool · Classes · Sports Hall<br><a href="/gym" style="color:#5c2d91;">View gym details →</a>'
+    },
+    {
+      id: 'library', type: 'library', lat: 52.5863, lng: -2.1272, color: '#007bff',
+      name: '📚 Harrison Learning Centre',
+      popup: '<b>Harrison Learning Centre</b><br>Open Mon–Fri 08:00–00:00<br>Status: <span style="color:#28a745;font-weight:600;">Not Busy</span><br>Study spaces, PCs, books & journals.'
+    },
+    {
+      id: 'su', type: 'food', lat: 52.5855, lng: -2.1300, color: '#fd7e14',
+      name: "🍽️ Students' Union",
+      popup: "<b>Students' Union</b><br>Food · Bar · Events · Societies<br><span style='color:#007bff;'>Tonight: Quiz Night, 8 PM</span>"
+    },
+    {
+      id: 'cafe', type: 'food', lat: 52.5870, lng: -2.1280, color: '#fd7e14',
+      name: '☕ Campus Café',
+      popup: '<b>Campus Café</b><br>Open Mon–Fri 08:00–17:00<br>Hot drinks, snacks and light meals.'
+    },
+    {
+      id: 'mi', type: 'academic', lat: 52.5852, lng: -2.1258, color: '#6c757d',
+      name: '🏫 MI Building',
+      popup: '<b>MI Building</b><br>Computing, Engineering & Science.<br>Lecture theatres and seminar rooms.'
+    },
+    {
+      id: 'mc', type: 'academic', lat: 52.5875, lng: -2.1295, color: '#6c757d',
+      name: '🏫 MC Building',
+      popup: '<b>MC Building</b><br>Business School & Law.<br>Lecture theatres, seminar rooms and study spaces.'
+    },
+  ];
+
+  const markers = {};
+
+  locations.forEach(loc => {
+    const marker = L.marker([loc.lat, loc.lng], { icon: makeIcon(loc.color) })
+      .addTo(map)
+      .bindPopup(loc.popup, { maxWidth: 240 });
+    markers[loc.id] = { marker, type: loc.type, name: loc.name };
+  });
+
+  // Filter markers
+  function filterMarkers(type, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    Object.values(markers).forEach(({ marker, type: t }) => {
+      if (type === 'all' || t === type) {
+        if (!map.hasLayer(marker)) map.addLayer(marker);
+      } else {
+        if (map.hasLayer(marker)) map.removeLayer(marker);
+      }
+    });
+    renderList(type);
+  }
+
+  // Render location list
+  function renderList(filter = 'all') {
+    const list = document.getElementById('locationList');
+    list.innerHTML = '';
+    locations.forEach(loc => {
+      if (filter !== 'all' && loc.type !== filter) return;
+      const card = document.createElement('div');
+      card.className = 'location-card';
+      card.style.borderLeftColor = loc.color;
+      card.innerHTML = `<h6>${loc.name}</h6><p>Click to zoom to location</p>`;
+      card.onclick = () => {
+        map.setView([loc.lat, loc.lng], 17);
+        markers[loc.id].marker.openPopup();
+      };
+      list.appendChild(card);
+    });
+  }
+
+  renderList();
+</script>
+{% endblock %}
