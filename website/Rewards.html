@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %}Rewards – Guide to WLV{% endblock %}
+{% block content %}
+<style>
+  .rewards-hero {
+    position: relative;
+    width: 50vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -25vw;
+    margin-right: -25vw;
+    height: 300px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+
+  .rewards-hero-overlay {
+    text-align: center;
+    color: white;
+  }
+
+  .rewards-hero-overlay h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+
+  .reward-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+    border-left: 5px solid #667eea;
+    transition: transform 0.3s ease;
+  }
+
+  .reward-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  }
+
+  .points-badge {
+    display: inline-block;
+    background: #667eea;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+  }
+
+  .user-points {
+    background: #e9ecef;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  .user-points h3 {
+    margin-bottom: 10px;
+    color: #667eea;
+    font-size: 2em;
+  }
+</style>
+
+<div class="rewards-hero">
+  <div class="rewards-hero-overlay">
+    <h1>🎁 Rewards Programme</h1>
+    <p>Earn points for campus activity and redeem student perks.</p>
+  </div>
+</div>
+
+<div class="container">
+  {% if current_user.is_authenticated %}
+  <div class="user-points">
+    <h3>{{ current_user.username }}'s Points</h3>
+    <p style="font-size: 1.2em; margin: 10px 0;">
+      <span class="points-badge">1,250 Points</span>
+    </p>
+  </div>
+  {% else %}
+  <div class="alert alert-info">
+    <strong>Log in</strong> to see your personalised reward balance and redeem points.
+  </div>
+  {% endif %}
+
+  <div class="row">
+    <div class="col-md-6">
+      <h4>How to Earn Points</h4>
+      <div class="reward-card">
+        <h5>📚 Visit the Library</h5>
+        <p>Earn 10 points for each study session or library booking.</p>
+      </div>
+      <div class="reward-card">
+        <h5>💪 Use Gym Facilities</h5>
+        <p>Earn 25 points for every gym visit and class attendance.</p>
+      </div>
+      <div class="reward-card">
+        <h5>🎓 Attend Events</h5>
+        <p>Earn 50 points for every student event or workshop you attend.</p>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <h4>Redeem Rewards</h4>
+      <div class="reward-card">
+        <h5>Coffee Voucher</h5>
+        <p>Cost: <span class="points-badge">100 Points</span></p>
+        <button class="btn btn-sm btn-primary" {% if not current_user.is_authenticated %}disabled{% endif %}>Redeem</button>
+      </div>
+      <div class="reward-card">
+        <h5>Merchandise Gift</h5>
+        <p>Cost: <span class="points-badge">250 Points</span></p>
+        <button class="btn btn-sm btn-primary" {% if not current_user.is_authenticated %}disabled{% endif %}>Redeem</button>
+      </div>
+      <div class="reward-card">
+        <h5>Free Month Pass</h5>
+        <p>Cost: <span class="points-badge">500 Points</span></p>
+        <button class="btn btn-sm btn-primary" {% if not current_user.is_authenticated %}disabled{% endif %}>Redeem</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
