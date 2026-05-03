@@ -189,8 +189,8 @@ def edit_profile():
 def about():
     teams = [
         {"name": "Project Management Team", "members": ["Hisham champan yunusah"]},
-        {"name": "Business Analysis Team", "members": ["Tyler McCallum", "Mandela Aina"]},
-        {"name": "Data Analysis Team", "members": ["Benedict Zolana"]},
+        {"name": "Business Analysis Team", "members": ["Tyler McCallum"]},
+        {"name": "Data Analysis Team", "members": ["Mandela Aina", "Benedict Zolana"]},
         {"name": "Software Development Team", "members": ["Mercy Ekuban", "Anu"]},
         {"name": "Security Consulting Team", "members": ["Lawrence kwame Anim"]},
     ]
