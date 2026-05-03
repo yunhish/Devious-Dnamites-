@@ -144,7 +144,7 @@ def rewards():
 
 @views.route('/ar-map')
 def ar_map():
-    return render_template('ar_map.html')
+    return render_template('Map.html')
 
 @views.route('/')
 def home():
@@ -216,14 +216,6 @@ def campus_map():
 @views.route('/notifications')
 def notifications():
     return render_template('notifications.html')
-
-@views.route('/bus')
-def bus():
-    return render_template('bus.html')
-
-@views.route('/gym')
-def gym():
-    return render_template('gym.html')
 
 @views.route('/settings', methods=['GET', 'POST'])
 @login_required
