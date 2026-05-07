@@ -1,320 +1,76 @@
 {% extends "base.html" %}
-{% block title %}AR Campus Map – Guide to WLV{% endblock %}
+{% block title %}Google Map – Guide to WLV{% endblock %}
 {% block content %}
 <style>
-  #ar-map {
-    width: 100%;
-    height: 600px;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-    margin-bottom: 30px;
+  .google-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
   }
 
-  .ar-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  .google-header {
+    background: linear-gradient(135deg, #1a73e8 0%, #174ea6 100%);
     color: white;
-    padding: 40px 20px;
+    border-radius: 18px;
+    padding: 36px 28px;
     text-align: center;
-    border-radius: 12px;
-    margin-bottom: 30px;
+    margin-bottom: 26px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.12);
   }
 
-  .ar-header h1 {
-    font-size: 2.2em;
-    margin-bottom: 10px;
-    font-weight: bold;
+  .google-header h1 {
+    margin-bottom: 12px;
+    font-size: 2.4rem;
   }
 
-  .ar-header p {
-    font-size: 1.1em;
-    opacity: 0.95;
+  .google-header p {
+    margin: 0;
+    opacity: 0.92;
+    font-size: 1rem;
   }
 
-  .controls {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    align-items: center;
+  .google-frame {
+    width: 100%;
+    min-height: 680px;
+    border: 0;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.15);
+    margin-top: 20px;
   }
 
-  .controls button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.3s ease;
+  .google-fallback {
+    margin-top: 20px;
+    text-align: center;
   }
 
-  .btn-filter-active {
-    background: #667eea;
-    color: white;
-  }
-
-  .btn-filter {
-    background: #e9ecef;
-    color: #333;
-  }
-
-  .btn-filter:hover {
-    background: #dee2e6;
-  }
-
-  .location-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    margin-top: 30px;
-  }
-
-  .location-card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .location-card:hover {
-    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-    transform: translateY(-4px);
-  }
-
-  .location-card h5 {
-    color: #667eea;
-    margin-bottom: 8px;
-    font-weight: bold;
-  }
-
-  .location-category {
+  .google-fallback a {
     display: inline-block;
-    background: #e9ecef;
-    color: #667eea;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.85em;
-    margin-bottom: 10px;
+    background: #1a73e8;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: background 0.2s ease;
   }
 
-  .ar-info {
-    background: #f0f4ff;
-    padding: 20px;
-    border-radius: 12px;
-    border-left: 4px solid #667eea;
-    margin-bottom: 20px;
-  }
-
-  .ar-info i {
-    color: #667eea;
-    margin-right: 10px;
+  .google-fallback a:hover {
+    background: #0f57c0;
   }
 </style>
 
-<div class="ar-header">
-  <h1>📍 AR Campus Map</h1>
-  <p>Explore University of Wolverhampton campus with augmented reality</p>
-</div>
-
-<div class="container">
-  <div class="ar-info">
-    <i class="fa fa-info-circle"></i>
-    <strong>Interactive Campus Map</strong> — Click on locations to see details, or use filters to find specific facilities.
+<div class="google-page">
+  <div class="google-header">
+    <h1>Google Map</h1>
+    <p>View the University of Wolverhampton area in a Google Maps embed. Use the button below if the embed does not load in your browser.</p>
   </div>
 
-  <div class="controls">
-    <span style="font-weight: 500;">Filter:</span>
-    <button class="btn-filter btn-filter-active" onclick="filterLocations('all')">All</button>
-    <button class="btn-filter" onclick="filterLocations('library')">Library</button>
-    <button class="btn-filter" onclick="filterLocations('gym')">Gym</button>
-    <button class="btn-filter" onclick="filterLocations('food')">Food & Drinks</button>
-    <button class="btn-filter" onclick="filterLocations('accommodation')">Accommodation</button>
-    <button class="btn-filter" onclick="filterLocations('support')">Support Services</button>
-  </div>
+  <iframe class="google-frame" src="https://maps.google.com/maps?q=52.5897,-2.1205&z=15&output=embed"></iframe>
 
-  <div id="ar-map"></div>
-
-  <h3 style="margin-top: 40px; margin-bottom: 20px;">Campus Locations</h3>
-  <div class="location-list" id="location-list">
-    <!-- Locations will be populated by JavaScript -->
+  <div class="google-fallback">
+    <p>If the embedded Google Map does not load, open it directly:</p>
+    <a href="https://www.google.com/maps?q=52.5897,-2.1205&z=15" target="_blank" rel="noopener noreferrer">Open Google Maps</a>
   </div>
 </div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
-
-<script>
-  // Campus locations with coordinates (center of WLV City Campus area)
-  const locations = [
-    {
-      id: 1,
-      name: 'Main Library',
-      category: 'library',
-      lat: 52.5898,
-      lng: -2.1201,
-      description: 'Multi-story library with study facilities, computers, and resources.',
-      icon: '📚'
-    },
-    {
-      id: 2,
-      name: 'Gym & Sports Centre',
-      category: 'gym',
-      lat: 52.5905,
-      lng: -2.1195,
-      description: 'State-of-the-art gym, swimming pool, and sports facilities.',
-      icon: '💪'
-    },
-    {
-      id: 3,
-      name: 'Student Union',
-      category: 'food',
-      lat: 52.5892,
-      lng: -2.1208,
-      description: 'Student hub with cafes, events, and social spaces.',
-      icon: '🎯'
-    },
-    {
-      id: 4,
-      name: 'Dining Hall',
-      category: 'food',
-      lat: 52.5890,
-      lng: -2.1215,
-      description: 'Main cafeteria with diverse food options.',
-      icon: '🍽️'
-    },
-    {
-      id: 5,
-      name: 'Student Accommodation',
-      category: 'accommodation',
-      lat: 52.5885,
-      lng: -2.1190,
-      description: 'On-campus residential halls and housing services.',
-      icon: '🏠'
-    },
-    {
-      id: 6,
-      name: 'Learning Support Centre',
-      category: 'support',
-      lat: 52.5900,
-      lng: -2.1220,
-      description: 'Academic support, tutoring, and study skills assistance.',
-      icon: '📖'
-    },
-    {
-      id: 7,
-      name: 'Health & Wellbeing Centre',
-      category: 'support',
-      lat: 52.5895,
-      lng: -2.1185,
-      description: 'Medical services, counselling, and health support.',
-      icon: '⚕️'
-    },
-    {
-      id: 8,
-      name: 'IT Support Services',
-      category: 'support',
-      lat: 52.5900,
-      lng: -2.1210,
-      description: 'Technical support and computer labs.',
-      icon: '💻'
-    }
-  ];
-
-  let map;
-  let markers = {};
-  let currentFilter = 'all';
-
-  // Initialize map
-  function initMap() {
-    map = L.map('ar-map').setView([52.5897, -2.1205], 16);
-    
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors',
-      maxZoom: 19
-    }).addTo(map);
-
-    // Add markers
-    locations.forEach(location => {
-      const marker = L.marker([location.lat, location.lng])
-        .bindPopup(`
-          <div style="width: 200px;">
-            <h5 style="color: #667eea; margin-bottom: 8px;">${location.icon} ${location.name}</h5>
-            <p style="font-size: 0.9em; margin: 8px 0;">${location.description}</p>
-            <small style="color: #667eea; font-weight: 500;">${location.category.toUpperCase()}</small>
-          </div>
-        `)
-        .addTo(map);
-      markers[location.id] = marker;
-    });
-
-    renderLocationList();
-  }
-
-  // Filter locations
-  function filterLocations(category) {
-    currentFilter = category;
-    
-    // Update button states
-    document.querySelectorAll('.controls button').forEach(btn => {
-      btn.classList.remove('btn-filter-active');
-      btn.classList.add('btn-filter');
-    });
-    event.target.classList.add('btn-filter-active');
-
-    // Update map markers
-    locations.forEach(location => {
-      if (currentFilter === 'all' || location.category === currentFilter) {
-        markers[location.id].setOpacity(1);
-      } else {
-        markers[location.id].setOpacity(0.3);
-      }
-    });
-
-    renderLocationList();
-  }
-
-  // Render location list
-  function renderLocationList() {
-    const listContainer = document.getElementById('location-list');
-    listContainer.innerHTML = '';
-
-    const filtered = currentFilter === 'all' ? 
-      locations : 
-      locations.filter(loc => loc.category === currentFilter);
-
-    filtered.forEach(location => {
-      const card = document.createElement('div');
-      card.className = 'location-card';
-      card.innerHTML = `
-        <div class="location-category">${location.category}</div>
-        <h5>${location.icon} ${location.name}</h5>
-        <p>${location.description}</p>
-        <button class="btn btn-sm btn-outline-primary" onclick="goToLocation(${location.id})">
-          View on Map
-        </button>
-      `;
-      listContainer.appendChild(card);
-    });
-  }
-
-  // Navigate to location on map
-  function goToLocation(id) {
-    const location = locations.find(l => l.id === id);
-    if (location) {
-      map.flyTo([location.lat, location.lng], 17, {
-        duration: 1.5
-      });
-      markers[id].openPopup();
-    }
-  }
-
-  // Initialize on page load
-  document.addEventListener('DOMContentLoaded', initMap);
-</script>
-
 {% endblock %}
