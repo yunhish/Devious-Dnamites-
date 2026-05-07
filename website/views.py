@@ -142,10 +142,6 @@ def library():
 def rewards():
     return render_template('rewards.html')
 
-@views.route('/ar-map')
-def ar_map():
-    return render_template('Map.html')
-
 @views.route('/')
 def home():
     return render_template("home.html")
@@ -157,6 +153,10 @@ def dashboard():
 @views.route('/bus')
 def bus():
     return render_template('bus.html')
+
+@views.route('/google-map')
+def google_map():
+    return render_template('maps.html')
 
 @views.route('/gym')
 def gym():
@@ -191,7 +191,7 @@ def about():
         {"name": "Project Management Team", "members": ["Hisham champan yunusah"]},
         {"name": "Business Analysis Team", "members": ["Tyler McCallum"]},
         {"name": "Data Analysis Team", "members": ["Mandela Aina", "Benedict Zolana"]},
-        {"name": "Software Development Team", "members": ["Mercy Ekuban", "Anu"]},
+        {"name": "Software Development Team", "members": ["Mercy Ekuban", "Anu oluwo"]},
         {"name": "Security Consulting Team", "members": ["Lawrence kwame Anim"]},
     ]
     return render_template("about.html", teams=teams)
@@ -209,9 +209,12 @@ def enquiry():
         return redirect(url_for('views.enquiry'))
     return render_template('enquiry.html')
 
-@views.route('/map')
-def campus_map():
-    return render_template('map.html')
+@views.route('/contact-us', methods=['GET', 'POST'])
+def contact_us():
+    if request.method == 'POST':
+        flash('Thank you for contacting us! We will respond shortly.', 'success')
+        return redirect(url_for('views.contact_us'))
+    return render_template('contact us.html')
 
 @views.route('/notifications')
 def notifications():
