@@ -14,9 +14,10 @@
             href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
             crossorigin="anonymous"
         />
+        <link rel="stylesheet" href="/static/styles.css">
         <title>{% block title %}{% endblock %}</title>
     </head>
-    <body style="background-image: url('/static/wlv1.png'); background-size: cover; background-attachment: fixed; background-position: center;">
+    <body>
          <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="/">
         <img src="/static/logo.png" alt="Logo" height="40">
@@ -33,7 +34,7 @@
         <div class="navbar-nav">
           <a class="nav-item nav-link" id="home" href="/">Home</a>
           <a class="nav-item nav-link" id="library" href="/library">Library</a>
-          <a class="nav-item nav-link" id="ar-map" href="/ar-map">AR Map</a>
+          <a class="nav-item nav-link" id="google" href="/google-map">Google Map</a>
           <div class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Menu
@@ -44,9 +45,8 @@
               <a class="dropdown-item" href="/about">About Us</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Settings</a>
-                <a class="dropdown-item" href="/map">🗺️ Campus Map</a>
-                <a class="dropdown-item" href="/notifications">🔔 Notifications</a>
-                <a class="dropdown-item" href="/enquiry">📬 Contact Us</a>
+                <a class="dropdown-item" href="#">Help</a>
+                <a class="dropdown-item" href="/contact-us">Contact Us</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" id="logout" href="/logout">Logout</a>
             </div>
