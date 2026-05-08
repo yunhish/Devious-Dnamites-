@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_user, logout_user, login_required
-from werkzeug.security import generate_password_hash, check_password_hash
-
+ 
 from . import db
 
 auth = Blueprint('auth', __name__)
@@ -27,13 +26,10 @@ def login():
         user = User.query.filter_by(email=email).first()
         
         if user:
-            # Check password
-            if check_password_hash(user.password_hash, password):
-                login_user(user)
-                flash('Logged in successfully!', 'success')
-                return redirect(url_for('views.home'))
-            else:
-                flash('Incorrect password.', 'error')
+            # For now, we're not checking password - you can add this later
+            login_user(user)
+            flash('Logged in successfully!', 'success')
+            return redirect(url_for('views.home'))
         else:
             flash('Email not found. Please sign up first.', 'error')
     
@@ -49,37 +45,39 @@ def logout():
 def sign_up():
     if request.method == 'POST':
         email = request.form.get('email')
-        first_name = request.form.get('first_name')  # Fixed field name
-        password = request.form.get('password')  # Simplified to single password field
+        first_name = request.form.get('fullName')
+        password1 = request.form.get('password1')
+        password2 = request.form.get('password2')
 
         # Check if email is university email
         if not email or not is_university_email(email):
             flash('Please use your university email address (@wlv.ac.uk).', 'error')
         else:
-            from .models import User
+            from .models import User, Profile
             if User.query.filter_by(email=email).first():
                 flash('Email already exists.', 'error')
             elif len(email) < 4:
                 flash('Email must be greater than 3 characters.', 'error')  
             elif not first_name or len(first_name) < 2:
                 flash('First name must be greater than 1 character.', 'error')
-            elif not password or len(password) < 7:
+            elif not password1 or not password2 or password1 != password2:
+                flash('Passwords don\'t match.', 'error')
+            elif len(password1) < 7:
                 flash('Password must be at least 7 characters.', 'error')
             else:
-                # Create new user WITH PASSWORD HASH
-                password_hash = generate_password_hash(password, method='pbkdf2:sha256')
-                new_user = User(
-                    email=email, 
-                    first_name=first_name,
-                    password_hash=password_hash,
-                    points=0  # Default points
-                )
+                # Create new user (without password for now)
+                new_user = User(email=email, first_name=first_name)
                 # Add user to database
                 db.session.add(new_user)
+                db.session.flush()  # This gets the user ID
+                # Create a profile for the new user
+                new_profile = Profile(user_id=new_user.id)
+                db.session.add(new_profile)
+                # Commit both user and profile to database
                 db.session.commit()
                 # Log the user in
                 login_user(new_user)
-                flash('Account created successfully!', 'success')
+                flash('Congratulations! Account and profile created successfully!', 'success')
                 return redirect(url_for('views.home'))
 
     return render_template("sign_up.html")
